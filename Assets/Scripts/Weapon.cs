@@ -15,14 +15,19 @@ public class Weapon : MonoBehaviour
         Cooldown // 冷却状态
     }
 
+    public Projectile projectilePrefab; // 子弹预制体
     public List<Transform> targets;
-    public Transform muzzle; // 炮口
+    /// <summary>
+    /// 攻击范围（扇形）的中心点
+    /// </summary>
+    public Transform center;
     public Transform gun;
     public float radius = 5f; // 扇形半径
     public float angle = 90f; // 扇形角度范围
     public float rotateSpeed = 90f; // 炮塔旋转速度（度/秒）
     public float fireThreshold = 5f; // 瞄准阈值（角度）
     public float fireRate = 3f; // 射击间隔（每秒）
+    public Transform firePoint; // 发射点
 
     Transform currentTarget;
     [SerializeField]
@@ -77,21 +82,21 @@ public class Weapon : MonoBehaviour
 
     }
 
-    bool IsEnemyInSector(Vector2 enemyPos)
+    bool IsEnemyInSector(Vector3 enemyPos)
     {
-        // 计算敌人与扇形中心的距离
-        float distance = Vector2.Distance(muzzle.position, enemyPos);
+        Vector3 toEnemy = enemyPos - center.position;
 
-        // 判断是否在半径范围内
-        if (distance > radius) return false;
+        // 把Y分量设为0，确保只在XZ平面判断
+        toEnemy.y = 0;
 
-        // 计算敌人相对于中心的角度
-        Vector2 direction = enemyPos - (Vector2)muzzle.position;
-        float enemyAngle = Vector2.Angle(muzzle.up, direction);
+        if (toEnemy.magnitude > radius)
+            return false;
 
-        // 判断是否在角度范围内
-        return enemyAngle <= angle / 2;
+        float angleToEnemy = Vector3.Angle(center.forward, toEnemy.normalized);
+
+        return angleToEnemy <= angle / 2f;
     }
+
 
     void TriggerAttack(Transform enemy)
     {
@@ -102,7 +107,13 @@ public class Weapon : MonoBehaviour
 
     void AimInUpdate()
     {
-        if (currentTarget == null) return; // 如果没有目标，直接返回
+        // 如果没有目标或者目标不在扇形范围内，切换到空闲状态
+        if (currentTarget == null||!IsEnemyInSector(currentTarget.position))
+        {
+            currentTarget = null; // 清除当前目标
+            state = WeaponState.Idle;
+            return; 
+        }
 
         // 计算目标方向
         Vector3 direction = currentTarget.position - gun.position;
@@ -131,5 +142,6 @@ public class Weapon : MonoBehaviour
     private void Fire()
     {
         print("Fire!"); // 这里可以替换为实际的攻击逻辑，比如发射子弹或播放动画
+        SimplePool.Spawn(projectilePrefab.gameObject, firePoint.position, firePoint.rotation);
     }
 }
