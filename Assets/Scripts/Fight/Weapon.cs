@@ -48,6 +48,11 @@ public class Weapon : MonoBehaviour
 
     float cdTime = 0.5f; // 攻击冷却时间
 
+    private void Start()
+    {
+        targets=BattleSceneController.Instance.Enemies; // 获取战斗场景中的敌人列表    
+    }
+
     private void FixedUpdate()
     {
         // 每次在 FixedUpdate 访问时检查冷却时间

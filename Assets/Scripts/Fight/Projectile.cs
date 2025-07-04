@@ -3,10 +3,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Projectile : MonoBehaviour
 {
+    [SerializeField]
+    int damage = 10; // 伤害值
     public float speed = 20f;
     public float lifetime = 5f;
     public float downwardForce = 9.81f; // 可自定义“重力感”
-
+    /// <summary>
+    /// 发射者，不能被该发射物伤害
+    /// </summary>
+    public Damageable shooter;
     private Rigidbody rb;
     private float timer;
     private TrailRenderer trailRenderer;
@@ -26,8 +31,6 @@ public class Projectile : MonoBehaviour
         }
 
         rb.linearVelocity = transform.forward * speed;
-        //rb.useGravity = true;
-        //Physics.gravity = Vector3.down * 9.81f * gravityScale;
 
         timer = lifetime;
     }
@@ -46,7 +49,17 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-       
+        if (other.TryGetComponent(out Damageable target) && target != shooter)
+        {
+            // 伤害目标
+            target.TakeDamage(damage);
+            Despawn();
+        }
+        else if (LayerMask.LayerToName(other.gameObject.layer) == "Water")
+        {
+            // 碰撞地面或墙壁，直接销毁
+            Despawn();
+        }
     }
 
     void Despawn()
@@ -54,7 +67,7 @@ public class Projectile : MonoBehaviour
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        
+
         SimplePool.Despawn(gameObject);
     }
 }

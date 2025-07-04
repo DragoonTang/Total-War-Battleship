@@ -16,7 +16,6 @@ public class AttackRangeVisualizer : MonoBehaviour
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        //lineRenderer.loop = false;
         lineRenderer.useWorldSpace = false;
         lineRenderer.positionCount = segments + 2;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
