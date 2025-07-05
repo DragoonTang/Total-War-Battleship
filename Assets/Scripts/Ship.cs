@@ -13,24 +13,9 @@ public class Ship : MonoBehaviour
     private float turnDirection = 0f;
     private Rigidbody rb;
 
-    public Button btnSpeed1, btnSpeed2, btnSpeed3, btnSpeed4;
-    public Button btnTurnLeft, btnTurnRight, btnTurnCenter;
-    public Button btnReverse;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        btnSpeed1.onClick.AddListener(() => SetSpeed(maxSpeed * 0.25f));
-        btnSpeed2.onClick.AddListener(() => SetSpeed(maxSpeed * 0.5f));
-        btnSpeed3.onClick.AddListener(() => SetSpeed(maxSpeed * 0.75f));
-        btnSpeed4.onClick.AddListener(() => SetSpeed(maxSpeed));
-
-        btnReverse.onClick.AddListener(() => SetSpeed(-maxSpeed * 0.5f));
-
-        btnTurnLeft.onClick.AddListener(() => turnDirection = -1);
-        btnTurnRight.onClick.AddListener(() => turnDirection = 1);
-        btnTurnCenter.onClick.AddListener(() => turnDirection = 0);
     }
 
     void Update()
@@ -39,9 +24,17 @@ public class Ship : MonoBehaviour
         rb.angularVelocity = new Vector3(0, turnDirection * turnSpeed * Time.deltaTime, 0);
     }
 
-    private void SetSpeed(float targetSpeed)
+    /// <summary>
+    /// 档位速度设置
+    /// </summary>
+    /// <param name="telegraph"></param>
+    public void SetSpeed(float telegraph)
     {
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * acceleration);
+        currentSpeed = Mathf.Lerp(currentSpeed, telegraph*maxSpeed, Time.deltaTime * acceleration);
     }
 
+    public void SetTurnDirection(int direction)
+    {
+        turnDirection = direction;
+    }
 }

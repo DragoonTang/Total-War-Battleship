@@ -23,9 +23,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         }
     }
 
-    /// <summary>
-    /// 切换场景时是否保留单例
-    /// </summary>
+    [Tooltip("是否为全局单例，设置为true时不会在场景切换时销毁该对象。")]
     public bool isGlobalSingleton;
 
     protected virtual void Awake()

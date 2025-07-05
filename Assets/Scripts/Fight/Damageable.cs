@@ -25,6 +25,7 @@ public class Damageable : MonoBehaviour
 
     void Die()
     {
+        BattleSceneController.Instance.EnemyDie(transform); // 通知战斗场景控制器敌人死亡
         // 可以调用事件或特效
         gameObject.SetActive(false);
     }
