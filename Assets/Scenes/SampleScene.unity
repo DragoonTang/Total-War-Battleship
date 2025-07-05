@@ -2035,10 +2035,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 451383317}
-  - {fileID: 1643427140}
-  - {fileID: 185487016}
   - {fileID: 1505951446}
+  - {fileID: 185487016}
+  - {fileID: 1643427140}
+  - {fileID: 451383317}
   - {fileID: 82404358}
   - {fileID: 1555290248}
   m_Father: {fileID: 1804585061}
