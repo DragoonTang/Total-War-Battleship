@@ -17,6 +17,7 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
     public Button btnStop;
     public Button btnReverse;
     public Button btnTurnLeft, btnTurnStop, btnTurnRight;
+    public Button btnExit; // 退出按钮
     #endregion
 
     private void Start()
@@ -32,6 +33,8 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
         btnTurnLeft.onClick.AddListener(() => playerShip.SetTurnDirection(-1));
         btnTurnStop.onClick.AddListener(() => playerShip.SetTurnDirection(0));
         btnTurnRight.onClick.AddListener(() => playerShip.SetTurnDirection(1));
+
+        btnExit.onClick.AddListener(() => ExitGame()); // 退出游戏
     }
 
     public void EnemyDie(Transform enemy)
@@ -45,5 +48,14 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
         {
             Debug.LogWarning($"{enemy.name} is not in the enemy list.");
         }
+    }
+
+    void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // 在编辑器中停止播放模式
+#else
+        Application.Quit()
+#endif
     }
 }
