@@ -4,50 +4,53 @@ using UnityEngine;
 public class AttackRangeVisualizer : MonoBehaviour
 {
     [SerializeField]
-    Weapon weapon; // 关联的武器脚本（如果需要）
+    private Turret parentTurret; // 关联底座上的炮塔脚本
 
-    public float radius = 5f;
-    public float angle = 60f;
-    public int segments = 30;
-    public Color lineColor = new Color(1, 0, 0, 0.5f);
+    public int segments = 50; // 增加分段使弧线更圆滑
+    public Color lineColor = new Color(0, 1, 0, 0.3f); // 建议玩家使用绿色半透明
 
     private LineRenderer lineRenderer;
 
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+
+        // 关键：设为 false，扇形将相对于 turret_base 本身
         lineRenderer.useWorldSpace = false;
-        lineRenderer.positionCount = segments + 2;
+
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.widthMultiplier = 0.05f;
+        lineRenderer.widthMultiplier = 0.08f;
         lineRenderer.startColor = lineRenderer.endColor = lineColor;
 
-        if (weapon != null)
+        // 自动获取同级的 Turret 脚本
+        if (parentTurret == null) parentTurret = GetComponent<Turret>();
+
+        if (parentTurret != null)
         {
-            radius = weapon.radius; // 从武器脚本获取攻击范围
-            angle = weapon.angle; // 从武器脚本获取攻击角度
+            // 绘制由底座定义的物理极限范围
+            DrawSector(parentTurret.maxRange, parentTurret.rotationLimitAngle);
         }
-
-        DrawSector();
     }
 
-    void Update()
+    // 如果你在编辑器里实时调参数，可以用 OnValidate，否则 Start 运行一次即可
+    void DrawSector(float radius, float angle)
     {
-        DrawSector(); // 实时刷新以追踪旋转
-    }
-
-    void DrawSector()
-    {
+        lineRenderer.positionCount = segments + 2;
         float halfAngle = angle * 0.5f;
         float angleStep = angle / segments;
 
-        lineRenderer.SetPosition(0, Vector3.zero);
+        lineRenderer.SetPosition(0, Vector3.zero); // 圆心在底座坐标原点
+
         for (int i = 0; i <= segments; i++)
         {
             float currentAngle = -halfAngle + angleStep * i;
             float rad = Mathf.Deg2Rad * currentAngle;
-            Vector3 pos = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * radius;
-            lineRenderer.SetPosition(i + 1, pos);
+
+            // 保持以底座 Forward 为中心的扇形
+            float x = Mathf.Sin(rad) * radius;
+            float z = Mathf.Cos(rad) * radius;
+
+            lineRenderer.SetPosition(i + 1, new Vector3(x, 0, z));
         }
     }
 }

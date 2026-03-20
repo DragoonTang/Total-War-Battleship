@@ -9,6 +9,7 @@ public class Damageable : MonoBehaviour
     private int currentHP;
 
     public int maxHP = 100;
+    internal bool isEnemy;
 
     void Awake() => currentHP = maxHP;
 

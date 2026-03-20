@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
     private Rigidbody rb;
     private float timer;
     private TrailRenderer trailRenderer;
+    internal bool isEnemy;
 
     private void Awake()
     {
