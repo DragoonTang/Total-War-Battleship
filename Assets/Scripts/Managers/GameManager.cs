@@ -49,5 +49,12 @@ public class GameManager : MonoBehaviour
         inputActions.UI.ScrollWheel.performed += ctx => orbitalFollow.Radius = Mathf.Clamp(orbitalFollow.Radius + ctx.ReadValue<Vector2>().y * scrollSpeed, viewRange.x, viewRange.y);
     }
 
-
+    public static void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

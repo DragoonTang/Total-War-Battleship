@@ -7,11 +7,19 @@ public class Damageable : MonoBehaviour
 {
     [SerializeField]
     private int currentHP;
-
     public int maxHP = 100;
+
+    [SerializeField]
     internal bool isEnemy;
 
-    void Awake() => currentHP = maxHP;
+    public BoxCollider Box { get;private set; }
+
+    void Awake()
+    {
+        currentHP = maxHP;
+        Box = GetComponent<BoxCollider>();
+        print(Box);
+    }
 
     public void TakeDamage(int amount)
     {
@@ -26,7 +34,7 @@ public class Damageable : MonoBehaviour
 
     void Die()
     {
-        BattleSceneController.Instance.EnemyDie(transform); // 通知战斗场景控制器敌人死亡
+        BattleSceneController.Instance.UnregisterEntity(this); // 通知战斗场景控制器敌人死亡
         // 可以调用事件或特效
         gameObject.SetActive(false);
     }

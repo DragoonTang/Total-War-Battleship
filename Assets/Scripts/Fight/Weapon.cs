@@ -1,51 +1,85 @@
+using NUnit.Framework.Internal;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("战斗参数")]
     public bool isEnemy;
-    public GameObject projectilePrefab;
-    public Transform firePoint;
-
-    [HideInInspector] public float radius; // 由 Turret 脚本在 Start 时同步过来
+    public Projectile projectilePrefab;
+    public float maxRange = 30f;
     public float fireRate = 2f;
-    public float fireThreshold = 5f; // 开火容差角度
+    public float fireThreshold = 3f;
+    public bool isAuto = true;
 
-    private float nextFireTime;
-    private Transform currentTarget;
+    [Header("特效")]
+    [SerializeField] GameObject effect;
 
-    // 由父级 Turret 调用，告知当前目标
-    public void SetTarget(Transform target)
+    private float cooldownTimer = 0f;
+    private List<Damageable> targetList;
+
+    public void Initialize(bool side, List<Damageable> targets)
     {
-        currentTarget = target;
+        isEnemy = side;
+        targetList = targets;
     }
 
     void Update()
     {
-        if (currentTarget != null && CanFire())
+        if (cooldownTimer > 0)
+            cooldownTimer -= Time.deltaTime;
+
+        if (isAuto && cooldownTimer <= 0 && targetList != null)
         {
-            Fire();
+            if (CheckAndFire())
+            {
+                cooldownTimer = fireRate;
+            }
         }
     }
 
-    bool CanFire()
+    public bool TryFire()
     {
-        if (Time.time < nextFireTime) return false;
+        if (cooldownTimer > 0)
+            return false;
 
-        // 判定：炮口正前方和目标的夹角
-        Vector3 toEnemy = (currentTarget.position - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, toEnemy);
-
-        // 距离判定（双重保险）
-        float dist = Vector3.Distance(transform.position, currentTarget.position);
-
-        return angle <= fireThreshold && dist <= radius;
+        ExecuteLaunch();
+        cooldownTimer = fireRate;
+        return true;
     }
 
-    void Fire()
+    private bool CheckAndFire()
     {
-        nextFireTime = Time.time + fireRate;
-        GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        // 这里的 Projectile 逻辑保持不变
-        if (bullet.TryGetComponent<Projectile>(out var p)) p.isEnemy = this.isEnemy;
+        float sqrMaxRange = maxRange * maxRange;
+
+        foreach (var enemy in targetList)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy || enemy.Box == null)
+                continue;
+
+            // 1. 使用投影矩形平方距离判定射程
+            float sqrDist = CombatUtils.SqrDistanceToBox(transform.position, enemy.Box);
+            if (sqrDist > sqrMaxRange)
+                continue;
+
+            // 2. 准心对齐判定：利用 CombatUtils 的角度判定工具
+            if (CombatUtils.IsInAngle(transform, enemy.transform.position, fireThreshold))
+            {
+                ExecuteLaunch();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void ExecuteLaunch()
+    {
+        effect.SetActive(true);
+
+        GameObject bulletObj = SimplePool.Instance.Spawn(projectilePrefab.gameObject, transform.position, transform.rotation);
+        if (bulletObj.TryGetComponent<Projectile>(out var projectile))
+        {
+            projectile.Initialize(isEnemy, transform.root);
+        }
     }
 }

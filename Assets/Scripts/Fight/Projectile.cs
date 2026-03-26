@@ -7,15 +7,20 @@ public class Projectile : MonoBehaviour
     int damage = 10; // 伤害值
     public float speed = 20f;
     public float lifetime = 5f;
-    public float downwardForce = 9.81f; // 可自定义“重力感”
+    public float downwardForce = 5f; // 可自定义“重力感”
+    [SerializeField] GameObject effect;
+
     /// <summary>
     /// 发射者，不能被该发射物伤害
     /// </summary>
-    public Damageable shooter;
+    Transform shooter;
     private Rigidbody rb;
     private float timer;
     private TrailRenderer trailRenderer;
-    internal bool isEnemy;
+    /// <summary>
+    /// 阵营
+    /// </summary>
+    private bool isEnemy;
 
     private void Awake()
     {
@@ -39,7 +44,8 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         // 施加一个持续向下的自定义力（仅影响 Y 轴）
-        rb.linearVelocity += Vector3.down * downwardForce * Time.fixedDeltaTime;
+        if (timer < 2)
+            rb.linearVelocity += Vector3.down * downwardForce * Time.fixedDeltaTime;
 
         timer -= Time.fixedDeltaTime;
         if (timer <= 0f)
@@ -50,17 +56,30 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Damageable target) && target != shooter)
+        // 穿过发射者时不发生碰撞
+        if (other.transform.root == shooter)
+            return;
+
+        if (other.TryGetComponent(out Damageable target))
         {
-            // 伤害目标
-            target.TakeDamage(damage);
+            // 阵营不同则伤害目标，同阵营则无伤害
+            if (target.isEnemy != isEnemy)
+                target.TakeDamage(damage);
+
+            SimplePool.Instance.Spawn(effect, transform.position, Quaternion.identity).transform.parent= target.transform;
             Despawn();
         }
+        // 碰撞地面或墙壁，直接销毁
         else if (LayerMask.LayerToName(other.gameObject.layer) == "Water")
         {
-            // 碰撞地面或墙壁，直接销毁
             Despawn();
         }
+    }
+
+    public void Initialize(bool side, Transform owner)
+    {
+        isEnemy = side;
+        shooter = owner;
     }
 
     void Despawn()
@@ -69,6 +88,6 @@ public class Projectile : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        SimplePool.Despawn(gameObject);
+        SimplePool.Instance.Despawn(gameObject);
     }
 }

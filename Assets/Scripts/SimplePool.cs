@@ -1,62 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class SimplePool
+public class SimplePool : MonoSingleton<SimplePool>
 {
-    private static Dictionary<GameObject, Queue<GameObject>> poolDict = new Dictionary<GameObject, Queue<GameObject>>();
-    private static Dictionary<GameObject, GameObject> instanceToPrefab = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject, Queue<GameObject>> poolDict = new Dictionary<GameObject, Queue<GameObject>>();
+    private Dictionary<GameObject, GameObject> instanceToPrefab = new Dictionary<GameObject, GameObject>();
 
-    public static GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation)
+    public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation)
     {
+        if (prefab == null) return null;
+
         if (!poolDict.ContainsKey(prefab))
         {
             poolDict[prefab] = new Queue<GameObject>();
         }
 
         GameObject obj;
-
         if (poolDict[prefab].Count > 0)
         {
             obj = poolDict[prefab].Dequeue();
+            // 额外检查：防止池子里的物体因为某种意外被销毁了
+            if (obj == null) return Spawn(prefab, position, rotation);
+
             obj.transform.SetPositionAndRotation(position, rotation);
             obj.SetActive(true);
         }
         else
         {
-            obj = Object.Instantiate(prefab, position, rotation);
-            instanceToPrefab[obj] = prefab; // ✨ 自动记录来源
+            obj = Instantiate(prefab, position, rotation);
+            instanceToPrefab[obj] = prefab;
         }
-
         return obj;
     }
 
-    public static void Despawn(GameObject obj)
+    public void Despawn(GameObject obj)
     {
+        if (obj == null) return;
         if (!instanceToPrefab.TryGetValue(obj, out GameObject prefab))
         {
-            Debug.LogWarning($"[SimplePool] Attempted to despawn untracked object: {obj.name}");
-            Object.Destroy(obj); // 安全兜底
+            Destroy(obj);
             return;
         }
 
         obj.SetActive(false);
         poolDict[prefab].Enqueue(obj);
-    }
-
-    // 可选：预热接口依然可用
-    public static void Preload(GameObject prefab, int count)
-    {
-        if (!poolDict.ContainsKey(prefab))
-        {
-            poolDict[prefab] = new Queue<GameObject>();
-        }
-
-        for (int i = 0; i < count; i++)
-        {
-            GameObject obj = Object.Instantiate(prefab);
-            obj.SetActive(false);
-            instanceToPrefab[obj] = prefab;
-            poolDict[prefab].Enqueue(obj);
-        }
     }
 }

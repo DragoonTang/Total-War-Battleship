@@ -1,80 +1,112 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Turret : MonoBehaviour
 {
+    [Header("核心引用")]
     public bool isEnemy;
-    public Transform gunNode; // 拖入你的 "Gun" 节点
+    public Transform gunNode; // 真正旋转的炮管/炮塔部分
 
-    [Header("性能参数")]
-    public float maxRange = 20f;
-    public float rotationLimitAngle = 120f; // 炮塔左右各 60 度的射界
-    public float rotateSpeed = 90f;
+    [Header("运动参数")]
+    public float rotateSpeed = 45f;
+    public float maxRange = 30f;
 
-    private Weapon childWeapon;
-    private Transform currentTarget;
+    [Tooltip("总射界角度。如120表示从中线向左和向右各60度")]
+    public float rotationLimitAngle = 120f;
 
-    void Start()
+    [SerializeField]
+    private List<Damageable> targetList;
+
+    public void Initialize(bool side, List<Damageable> targets)
     {
-        childWeapon = GetComponentInChildren<Weapon>();
-        if (childWeapon != null)
+        isEnemy = side;
+        targetList = targets;
+
+        var weapons = GetComponentsInChildren<Weapon>();
+        foreach (var w in weapons)
         {
-            childWeapon.isEnemy = this.isEnemy;
-            childWeapon.radius = this.maxRange; // 强制同步射程
+            w.maxRange = maxRange;
         }
     }
 
     void Update()
     {
-        SearchTarget();
-        if (currentTarget != null)
+        if (targetList == null || gunNode == null) return;
+
+        // 寻找最近目标
+        Damageable target = ScanClosest();
+
+        // 判定逻辑：必须有目标，且目标中心点在扇形射界内（射界通常针对旋转限制，仍以中心点为参考）
+        if (target != null && IsTargetInSector(target.transform.position))
         {
-            RotateTowardsTarget();
-            if (childWeapon != null) childWeapon.SetTarget(currentTarget);
+            RotateTowards(target.transform.position);
         }
         else
         {
-            if (childWeapon != null) childWeapon.SetTarget(null);
+            ReturnToCenter();
         }
     }
 
-    void SearchTarget()
+    private void RotateTowards(Vector3 targetPos)
     {
-        // 沿用之前的索敌逻辑，但结果留在 Turret 层
-        var enemies = isEnemy ? BattleSceneController.Instance.playerUnits : BattleSceneController.Instance.enemyUnits;
-        float minDistance = maxRange;
-        Transform bestTarget = null;
+        Vector3 localTargetPos = transform.InverseTransformPoint(targetPos);
+        localTargetPos.y = 0;
 
-        foreach (var enemy in enemies)
+        if (localTargetPos != Vector3.zero)
         {
-            if (enemy == null) continue;
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            Quaternion targetLocalRot = Quaternion.LookRotation(localTargetPos);
+            gunNode.localRotation = Quaternion.RotateTowards(
+                gunNode.localRotation,
+                targetLocalRot,
+                rotateSpeed * Time.deltaTime
+            );
+        }
+    }
 
-            // 判定是否在底座的物理射界内
-            if (dist < minDistance && IsInPhysicalLimit(enemy.transform.position))
+    private void ReturnToCenter()
+    {
+        if (gunNode.localRotation == Quaternion.identity) return;
+
+        gunNode.localRotation = Quaternion.RotateTowards(
+            gunNode.localRotation,
+            Quaternion.identity,
+            rotateSpeed * Time.deltaTime
+        );
+    }
+
+    private bool IsTargetInSector(Vector3 worldPos)
+    {
+        return CombatUtils.IsInAngle(transform, worldPos, rotationLimitAngle * 0.5f);
+    }
+
+    private Damageable ScanClosest()
+    {
+        float minSqrD = maxRange * maxRange;
+        Damageable best = null;
+
+        foreach (var e in targetList)
+        {
+            if (e == null || !e.gameObject.activeInHierarchy || e.Box == null) continue;
+
+            // 使用 CombatUtils 计算点到 Box 投影矩形的平方距离
+            float sqrD = CombatUtils.SqrDistanceToBox(transform.position, e.Box);
+
+            if (sqrD < minSqrD)
             {
-                minDistance = dist;
-                bestTarget = enemy.transform;
+                minSqrD = sqrD;
+                best = e;
             }
         }
-        currentTarget = bestTarget;
+        return best;
     }
 
-    bool IsInPhysicalLimit(Vector3 targetPos)
+    private void OnDrawGizmosSelected()
     {
-        Vector3 toEnemy = (targetPos - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, toEnemy);
-        return angle <= rotationLimitAngle / 2f;
-    }
+        Gizmos.color = Color.yellow;
+        Vector3 leftBoundary = Quaternion.Euler(0, -rotationLimitAngle * 0.5f, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, rotationLimitAngle * 0.5f, 0) * transform.forward;
 
-    void RotateTowardsTarget()
-    {
-        Vector3 direction = currentTarget.position - gunNode.position;
-        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-
-        // 使用 LerpAngle 平滑旋转并限制在 localRotation
-        float currentY = gunNode.localEulerAngles.y;
-        float newY = Mathf.MoveTowardsAngle(currentY, targetAngle, rotateSpeed * Time.deltaTime);
-
-        gunNode.rotation = Quaternion.Euler(0, newY, 0);
+        Gizmos.DrawRay(transform.position, leftBoundary * maxRange);
+        Gizmos.DrawRay(transform.position, rightBoundary * maxRange);
     }
 }
