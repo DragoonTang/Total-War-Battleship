@@ -20,6 +20,12 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("舵向组 (Toggle Group)")]
     [SerializeField] private ToggleGroup turnGroup;
 
+    [Header("音量控制 (UI)")]
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Toggle musicMuteToggle;
+    [SerializeField] private Toggle sfxMuteToggle;
+
     private void Start()
     {
         // 1. 初始化动力组逻辑
@@ -34,7 +40,40 @@ public class UIManager : MonoSingleton<UIManager>
             playerShip.SetTurnDirection((int)val);
         });
 
-        btnExit.onClick.AddListener(() => GameManager.ExitGame());
+        btnExit.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayUISound("UI_Click");
+            GameManager.ExitGame();
+        });
+
+        // 音频 UI 绑定
+        var audio = AudioManager.Instance;
+        if (audio != null)
+        {
+            if (musicSlider != null)
+            {
+                musicSlider.onValueChanged.AddListener((v) => audio.SetMusicVolumeFromLinear(v));
+                musicSlider.value = audio.GetMusicLinearVolume();
+            }
+
+            if (sfxSlider != null)
+            {
+                sfxSlider.onValueChanged.AddListener((v) => audio.SetSFXVolumeFromLinear(v));
+                sfxSlider.value = audio.GetSFXLinearVolume();
+            }
+
+            if (musicMuteToggle != null)
+            {
+                musicMuteToggle.onValueChanged.AddListener((v) => audio.SetMusicMute(v));
+                musicMuteToggle.isOn = false; // 默认不静音
+            }
+
+            if (sfxMuteToggle != null)
+            {
+                sfxMuteToggle.onValueChanged.AddListener((v) => audio.SetSFXMute(v));
+                sfxMuteToggle.isOn = false;
+            }
+        }
     }
 
     /// <summary>
@@ -58,8 +97,8 @@ public class UIManager : MonoSingleton<UIManager>
                     if (isOn) // 只有当被选中时才触发指令
                     {
                         onAction.Invoke(value);
-                        // 这里可以添加通用的“咔哒”音效触发
-                        // AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
+                        // 播放 UI 点击音效
+                        AudioManager.Instance.PlayUISound("UI_Click");
                     }
                 });
 

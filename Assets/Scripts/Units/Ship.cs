@@ -16,9 +16,12 @@ public class Ship : MonoBehaviour
     [SerializeField] private float turnDirection = 0f; // 舵向指令: -1, 0, 1
 
     private Rigidbody rb;
+    UnitCore unitCore;
 
     void Start()
     {
+        unitCore = GetComponent<UnitCore>();
+
         rb = GetComponent<Rigidbody>();
         // 增加阻尼感，使船只停下时更自然
         if (rb != null)
@@ -32,6 +35,7 @@ public class Ship : MonoBehaviour
     {
         // 1. 持续向目标档位速度平滑过渡
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, Time.fixedDeltaTime * acceleration);
+        unitCore.speedPercent = Mathf.Abs(currentSpeed) / maxSpeed; // 更新声音参数
 
         // 2. 应用线速度
         rb.linearVelocity = transform.forward * currentSpeed;

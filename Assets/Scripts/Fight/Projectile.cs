@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
@@ -21,6 +21,7 @@ public class Projectile : MonoBehaviour
     /// 阵营
     /// </summary>
     private bool isEnemy;
+    bool hasHit = false;
 
     private void Awake()
     {
@@ -39,6 +40,8 @@ public class Projectile : MonoBehaviour
         rb.linearVelocity = transform.forward * speed;
 
         timer = lifetime;
+
+        hasHit = false;
     }
 
     void FixedUpdate()
@@ -56,17 +59,25 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (hasHit) return;
+
         // 穿过发射者时不发生碰撞
         if (other.transform.root == shooter)
             return;
 
         if (other.TryGetComponent(out Damageable target))
         {
+            hasHit = true;
             // 阵营不同则伤害目标，同阵营则无伤害
             if (target.isEnemy != isEnemy)
                 target.TakeDamage(damage);
 
-            SimplePool.Instance.Spawn(effect, transform.position, Quaternion.identity).transform.parent= target.transform;
+            // 这样特效会留在撞击时的世界坐标，但随船移动
+            GameObject explosion = SimplePool.Instance.Spawn(effect, transform.position, Quaternion.identity);
+
+            // 使用这个方法保持世界坐标不跳变：
+            explosion.transform.SetParent(target.transform, true);
+
             Despawn();
         }
         // 碰撞地面或墙壁，直接销毁
@@ -84,7 +95,6 @@ public class Projectile : MonoBehaviour
 
     void Despawn()
     {
-
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 

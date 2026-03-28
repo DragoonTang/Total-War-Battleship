@@ -1,4 +1,3 @@
-using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,6 +79,13 @@ public class Weapon : MonoBehaviour
         if (bulletObj.TryGetComponent<Projectile>(out var projectile))
         {
             projectile.Initialize(isEnemy, transform.root);
+        }
+
+        // 播放开火音效 - 通过舰船的效果音播放器
+        var shipRoot = transform.root.GetComponent<UnitCore>();
+        if (shipRoot != null)
+        {
+            shipRoot.PlayEffectSound("Ship_Fire");
         }
     }
 }
