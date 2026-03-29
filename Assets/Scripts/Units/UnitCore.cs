@@ -11,19 +11,21 @@ public class UnitCore : MonoBehaviour
     public bool isEnemy;
 
     [Header("声音配置")]
-    [SerializeField] AudioSource myAudio;
+    [SerializeField] AudioSource hurtAudio, boomAudio;
     public float basePitch = 0.8f;
     public float speedPercent;
 
     // 第二个音效播放器，用于播放开火和中弹音效
     [SerializeField] private AudioSource effectAudio;
 
+    Damageable damageable;
+
     void Start()
     {
-        myAudio = myAudio != null ? myAudio : GetComponent<AudioSource>();
-        if (myAudio != null && myAudio.clip != null)
+        hurtAudio = hurtAudio != null ? hurtAudio : GetComponent<AudioSource>();
+        if (hurtAudio != null && hurtAudio.clip != null)
         {
-            myAudio.Play(); // 启动你在 Inspector 里拖好的水声
+            hurtAudio.Play(); // 启动你在 Inspector 里拖好的水声
         }
 
         // 获取第二个音效播放器
@@ -34,8 +36,9 @@ public class UnitCore : MonoBehaviour
         }
 
         // 注册到战斗控制器
-        Damageable damageable = GetComponent<Damageable>();
-        damageable.OnHit += (amount) => PlayEffectSound("Ship_Hit");
+        damageable = GetComponent<Damageable>();
+        damageable.OnHit += (_) => HandleHit();
+        damageable.OnDie += () => HandleDeathSound();
         damageable.isEnemy = isEnemy;
         var targets = BattleSceneController.Instance.RegisterEntity(damageable, isEnemy);
 
@@ -53,21 +56,26 @@ public class UnitCore : MonoBehaviour
             w.Initialize(isEnemy, targets);
         }
     }
+    void OnDisable()
+    {
+        damageable.OnHit -= (_) => HandleHit();
+        damageable.OnDie -= () => HandleDeathSound();
+    }
 
     void Update()
     {
         // 只有在获取了第一个播放器（水声）的情况下执行
-        if (myAudio != null)
+        if (hurtAudio != null)
         {
             // 限制在 0-1 之间增加安全性
             float clampSpeed = Mathf.Clamp01(speedPercent);
 
             // 映射音量：静止时 0.1（保底水声），全速时 1.0
-            myAudio.volume = Mathf.Lerp(0.1f, 1.0f, clampSpeed);
+            hurtAudio.volume = Mathf.Lerp(0.1f, 1.0f, clampSpeed);
 
             // 映射音调：这个是“速度感”的关键
             // 建议范围大一点，比如从 0.75f 到 1.25f
-            myAudio.pitch = Mathf.Lerp(basePitch, 1.25f, clampSpeed);
+            hurtAudio.pitch = Mathf.Lerp(basePitch, 1.25f, clampSpeed);
         }
     }
 
@@ -86,5 +94,16 @@ public class UnitCore : MonoBehaviour
             // 备用：使用 AudioManager 的通用播放方法
             AudioManager.Instance.PlayUISound(clipName);
         }
+    }
+
+    void HandleHit()
+    {
+        PlayEffectSound("Ship_Hit");
+    }
+
+    void HandleDeathSound()
+    {
+        // 播放死亡音效
+        PlayEffectSound("Ship_Boom");
     }
 }

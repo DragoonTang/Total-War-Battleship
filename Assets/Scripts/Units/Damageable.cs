@@ -11,6 +11,10 @@ public class Damageable : MonoBehaviour
     /// 参数为伤害量
     /// </summary>
     public event Action<int> OnHit;
+    /// <summary>
+    /// 死亡事件
+    /// </summary>
+    public event Action OnDie;   
 
     [SerializeField]
     private int currentHP;
@@ -51,7 +55,10 @@ public class Damageable : MonoBehaviour
 
     void Die()
     {
-        // 1. 停止物理
+        // 触发死亡事件
+        OnDie?.Invoke();
+
+        // 停止物理
         var rb = GetComponent<Rigidbody>();
         if (rb != null)
         {

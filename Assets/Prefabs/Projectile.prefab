@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   speed: 8
-  lifetime: 3
+  lifetime: 6
   downwardForce: 0.2
   effect: {fileID: 1000013462590818, guid: 3ccf808072dace543aa430e769bf640e, type: 3}
 --- !u!96 &-2426407440021938569
@@ -265,7 +265,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: ce4b77858ec6c0f469b07b034c21a85f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

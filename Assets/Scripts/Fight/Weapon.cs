@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     public bool isEnemy;
     public Projectile projectilePrefab;
     public float maxRange = 30f;
-    public float fireRate = 2f;
+    public float cooldownTime = 2f;
     public float fireThreshold = 3f;
     public bool isAuto = true;
 
@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
         {
             if (CheckAndFire())
             {
-                cooldownTimer = fireRate;
+                cooldownTimer = cooldownTime;
             }
         }
     }
@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour
             return false;
 
         ExecuteLaunch();
-        cooldownTimer = fireRate;
+        cooldownTimer = cooldownTime;
         return true;
     }
 
