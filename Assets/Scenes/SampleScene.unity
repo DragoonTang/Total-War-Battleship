@@ -1215,6 +1215,7 @@ GameObject:
   - component: {fileID: 300791833}
   - component: {fileID: 300791829}
   - component: {fileID: 300791834}
+  - component: {fileID: 300791835}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -1245,7 +1246,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0.45, z: -0.01}
-  Damping: {x: 0.5, y: 0.5}
+  Damping: {x: 1, y: 1}
   Lookahead:
     Enabled: 0
     Time: 0
@@ -1430,6 +1431,21 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &300791835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300791828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa5a21075114734ca2f156bbbf675a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CinemachineCameraControl
+  viewRange: {x: 2, y: 10}
+  scrollSpeed: 0.5
+  cinemaController: {fileID: 300791834}
 --- !u!1 &325227091
 GameObject:
   m_ObjectHideFlags: 0
@@ -4959,7 +4975,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355308763}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9734d502fd7debc49a7c3a78a9cfa88e, type: 3}
   m_Name: 

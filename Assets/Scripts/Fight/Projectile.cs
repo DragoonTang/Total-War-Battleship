@@ -47,7 +47,7 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         // 施加一个持续向下的自定义力（仅影响 Y 轴）
-        if (timer < 2)
+        if (timer > 2)
             rb.linearVelocity += Vector3.down * downwardForce * Time.fixedDeltaTime;
 
         timer -= Time.fixedDeltaTime;
