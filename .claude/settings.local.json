@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -command \"Select-String -Path ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\Scripts\\\\InputSystem_Actions.cs'' -Pattern ''OnMiddleClick|void On'' | Select-Object LineNumber, Line | Format-Table -AutoSize\")",
+      "Bash(powershell -command \"\\(Get-Content ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\Scripts\\\\InputSystem_Actions.cs''\\).Count\")",
+      "Bash(powershell -command \"\\(Get-Content ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\InputSystem_Actions.cs''\\).Count\")",
+      "Bash(powershell -command \"Remove-Item ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\Scripts\\\\InputSystem_Actions.cs'' -Force; if \\(Test-Path ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\Scripts\\\\InputSystem_Actions.cs.meta''\\) { Remove-Item ''D:\\\\Work\\\\Code\\\\Unity3D\\\\DragoonTang\\\\Total-War-Battleship\\\\Total-War-Battleship\\\\Assets\\\\Scripts\\\\InputSystem_Actions.cs.meta'' -Force }; Write-Host ''Done''\")",
+      "Bash(Select-String -Pattern \"error|warning CS\")",
+      "Bash(pandoc --track-changes=all \"D:/Work/Code/Unity3D/DragoonTang/Total-War-Battleship/Total-War-Battleship/《全面战舰》策划.docx\" -o \"D:/Work/Code/Unity3D/DragoonTang/Total-War-Battleship/Total-War-Battleship/Docs/_temp_plan.md\")"
+    ]
+  }
+}
