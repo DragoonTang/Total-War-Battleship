@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls; // TouchControl
 using Unity.Cinemachine;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase; // 消除与旧版 UnityEngine.TouchPhase 的歧义
 
@@ -18,7 +19,14 @@ public class CinemachineCameraControl : MonoBehaviour
     // 缓存 lambda，确保 -= 能正确取消订阅
     private System.Action<InputAction.CallbackContext> onAttackStarted;
     private System.Action<InputAction.CallbackContext> onAttackCanceled;
-    private System.Action<InputAction.CallbackContext> onScrollWheel;
+    private System.Action<InputAction.CallbackContext> onScrollZoom;
+
+    /// <summary>
+    /// 独立 InputAction，直接绑定 &lt;Mouse&gt;/scroll/y，不属于任何 ActionMap。
+    /// 完全绕开 EventSystem / InputSystemUIInputModule 的事件消费，
+    /// 同时以回调方式捕获 delta 型滚轮事件，避免 Update 轮询时值已被帧边界清零的问题。
+    /// </summary>
+    private InputAction scrollZoomAction;
 
     // 双指捏合状态
     private float lastPinchDist;
@@ -29,26 +37,39 @@ public class CinemachineCameraControl : MonoBehaviour
         inputActions = new InputSystem_Actions();
         orbitalFollow = cinemaController.GetComponent<CinemachineOrbitalFollow>();
 
-        onAttackStarted  = _ => cinemaController.enabled = true;
+        onAttackStarted = _ => cinemaController.enabled = true;
         onAttackCanceled = _ => cinemaController.enabled = false;
-        onScrollWheel    = ctx => ApplyZoom(-ctx.ReadValue<Vector2>().y * scrollSpeed);
+
+        // 独立 Action：不绑定 ActionMap，EventSystem 不可见也不会消费它
+        scrollZoomAction = new InputAction(
+            name: "ScrollZoom",
+            type: InputActionType.Value,
+            binding: "<Mouse>/scroll/y");
+        onScrollZoom = ctx => ApplyZoom(-ctx.ReadValue<float>() * scrollSpeed);
+        scrollZoomAction.performed += onScrollZoom;
     }
 
     void OnEnable()
     {
         inputActions.Enable();
-        inputActions.Player.Attack.started   += onAttackStarted;
-        inputActions.Player.Attack.canceled  += onAttackCanceled;
-        inputActions.UI.ScrollWheel.performed += onScrollWheel;
+        inputActions.Player.Attack.started  += onAttackStarted;
+        inputActions.Player.Attack.canceled += onAttackCanceled;
+        scrollZoomAction.Enable();
         cinemaController.enabled = false;
     }
 
     void OnDisable()
     {
-        inputActions.Player.Attack.started   -= onAttackStarted;
-        inputActions.Player.Attack.canceled  -= onAttackCanceled;
-        inputActions.UI.ScrollWheel.performed -= onScrollWheel;
+        inputActions.Player.Attack.started  -= onAttackStarted;
+        inputActions.Player.Attack.canceled -= onAttackCanceled;
+        scrollZoomAction.Disable();
         inputActions.Disable();
+    }
+
+    void OnDestroy()
+    {
+        scrollZoomAction.performed -= onScrollZoom;
+        scrollZoomAction.Dispose();
     }
 
     void Update()
@@ -57,31 +78,43 @@ public class CinemachineCameraControl : MonoBehaviour
     }
 
     /// <summary>
-    /// 双指捏合缩放（安卓）。
+    /// 双指捏合缩放（安卓 / 编辑器 Device Simulator）。
     /// 捏合期间禁用镜头旋转，捏合结束后若仍有单指按下则恢复旋转。
+    /// 遍历所有触点槽位收集活跃触点，避免固定下标带来的槽位错位问题。
     /// </summary>
     private void HandlePinchZoom()
     {
-        int activeCount = GetActiveTouchCount();
+        var touchscreen = Touchscreen.current;
+        if (touchscreen == null) return;
+
+        // 收集活跃触点（跳过 None / Ended / Canceled 槽位）
+        TouchControl touch0 = null, touch1 = null;
+        int activeCount = 0;
+        foreach (var touch in touchscreen.touches)
+        {
+            var phase = touch.phase.ReadValue();
+            if (phase == TouchPhase.None || phase == TouchPhase.Ended || phase == TouchPhase.Canceled)
+                continue;
+
+            if (activeCount == 0)      touch0 = touch;
+            else if (activeCount == 1) touch1 = touch;
+
+            activeCount++;
+            if (activeCount >= 2) break;
+        }
 
         if (activeCount >= 2)
         {
             // 进入双指模式：禁止镜头旋转
             cinemaController.enabled = false;
 
-            var t0 = Touchscreen.current.touches[0];
-            var t1 = Touchscreen.current.touches[1];
             float dist = Vector2.Distance(
-                t0.position.ReadValue(),
-                t1.position.ReadValue());
+                touch0.position.ReadValue(),
+                touch1.position.ReadValue());
 
-            // 任意一指移动时计算缩放量
-            var phase0 = t0.phase.ReadValue();
-            var phase1 = t1.phase.ReadValue();
-            if (phase0 == TouchPhase.Moved || phase1 == TouchPhase.Moved)
-            {
+            // 跳过第一帧（lastPinchDist 尚未初始化），从第二帧起计算缩放量
+            if (wasPinching)
                 ApplyZoom((lastPinchDist - dist) * scrollSpeed * 0.1f);
-            }
 
             lastPinchDist = dist;
             wasPinching = true;
@@ -93,29 +126,6 @@ public class CinemachineCameraControl : MonoBehaviour
             // 单指仍在屏幕上时，恢复镜头旋转（Attack.started 已经触发过了）
             cinemaController.enabled = (activeCount == 1);
         }
-    }
-
-    /// <summary>
-    /// 统计当前活跃触点数（排除 None / Ended / Canceled 状态的槽位）。
-    /// Touchscreen.touches.Count 是设备最大槽位数，不代表实际触点数。
-    /// </summary>
-    private int GetActiveTouchCount()
-    {
-        var touchscreen = Touchscreen.current;
-        if (touchscreen == null) return 0;
-
-        int count = 0;
-        foreach (var touch in touchscreen.touches)
-        {
-            var phase = touch.phase.ReadValue();
-            if (phase != TouchPhase.None &&
-                phase != TouchPhase.Ended &&
-                phase != TouchPhase.Canceled)
-            {
-                count++;
-            }
-        }
-        return count;
     }
 
     private void ApplyZoom(float delta)
