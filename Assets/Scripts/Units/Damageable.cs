@@ -38,7 +38,6 @@ public class Damageable : MonoBehaviour
     {
         currentHP = maxHP;
         Box = GetComponent<BoxCollider>();
-        print(Box);
     }
 
     public void TakeDamage(int amount)
