@@ -1,87 +1,125 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Damageable))]
-[RequireComponent(typeof(AudioSource))]
 
 /// <summary>
-/// 指挥官
+/// 指挥官：负责声音、特效与战斗逻辑的统一调度
 /// </summary>
+[RequireComponent(typeof(Damageable))]
+[RequireComponent(typeof(AudioSource))]
 public class UnitCore : MonoBehaviour
 {
     public bool isEnemy;
 
     [Header("声音配置")]
-    [SerializeField] AudioSource hurtAudio, boomAudio;
     public float basePitch = 0.8f;
     public float speedPercent;
+    AudioSource moveAudio;
+    AudioSource effectAudio;
 
-    // 第二个音效播放器，用于播放开火和中弹音效
-    [SerializeField] private AudioSource effectAudio;
+    [Header("受损特效配置")]
+    [SerializeField] private GameObject smokeEffect;
+    [SerializeField,Tooltip("冒烟阈值：生命值百分比小于该值时显示冒烟")]
+    float smokeThreshold = 0.6f; 
+    [SerializeField] private GameObject fireEffect;
+    [SerializeField, Tooltip("燃火阈值生命值百分比")]
+    float fireThreshold = 0.35f; 
 
     Damageable damageable;
+    Weapon[] weapons;
 
     void Start()
     {
-        hurtAudio = hurtAudio != null ? hurtAudio : GetComponent<AudioSource>();
-        if (hurtAudio != null && hurtAudio.clip != null)
+        // --- 原有音频初始化 ---
+        moveAudio = moveAudio != null ? moveAudio : GetComponent<AudioSource>();
+        if (moveAudio != null && moveAudio.clip != null)
         {
-            hurtAudio.Play(); // 启动你在 Inspector 里拖好的水声
+            moveAudio.Play();
         }
 
-        // 获取第二个音效播放器
         AudioSource[] audioSources = GetComponents<AudioSource>();
         if (audioSources.Length > 1)
         {
             effectAudio = audioSources[1];
         }
 
-        // 注册到战斗控制器
+        // --- 注册 Damageable 事件 ---
         damageable = GetComponent<Damageable>();
-        damageable.OnHit += (_) => HandleHit();
-        damageable.OnDie += () => HandleDeathSound();
         damageable.isEnemy = isEnemy;
+
+        // 监听受伤：更新特效
+        damageable.OnHit += (_) =>
+        {
+            HandleHit();
+            UpdateDamageEffects(); // 每次挨打检查一次生命值
+        };
+
+        // 监听死亡：清理特效
+        damageable.OnDie += () =>
+        {
+            HandleDeathSound();
+            ClearEffectsOnDeath();
+        };
+
+        // 初始化特效状态（防止出生就是残血）
+        UpdateDamageEffects();
+
+        // 注册到战斗控制器并初始化武器
         var targets = BattleSceneController.Instance.RegisterEntity(damageable, isEnemy);
 
-        // 统一初始化所有炮塔
         Turret[] turrets = GetComponentsInChildren<Turret>();
-        foreach (var t in turrets)
-        {
-            t.Initialize(isEnemy, targets);
-        }
+        foreach (var t in turrets) t.Initialize(isEnemy, targets);
 
-        //  统一初始化所有武器
-        Weapon[] weapons = GetComponentsInChildren<Weapon>();
-        foreach (var w in weapons)
-        {
-            w.Initialize(isEnemy, targets);
-        }
-    }
-    void OnDisable()
-    {
-        damageable.OnHit -= (_) => HandleHit();
-        damageable.OnDie -= () => HandleDeathSound();
+        weapons = GetComponentsInChildren<Weapon>();
+        foreach (var w in weapons) w.Initialize(isEnemy, targets);
     }
 
     void Update()
     {
-        // 只有在获取了第一个播放器（水声）的情况下执行
-        if (hurtAudio != null)
+        // 保持原有的螺旋桨水声逻辑
+        if (moveAudio != null)
         {
-            // 限制在 0-1 之间增加安全性
             float clampSpeed = Mathf.Clamp01(speedPercent);
-
-            // 映射音量：静止时 0.1（保底水声），全速时 1.0
-            hurtAudio.volume = Mathf.Lerp(0.1f, 1.0f, clampSpeed);
-
-            // 映射音调：这个是“速度感”的关键
-            // 建议范围大一点，比如从 0.75f 到 1.25f
-            hurtAudio.pitch = Mathf.Lerp(basePitch, 1.25f, clampSpeed);
+            moveAudio.volume = Mathf.Lerp(0.1f, 1.0f, clampSpeed);
+            moveAudio.pitch = Mathf.Lerp(basePitch, 1.25f, clampSpeed);
         }
     }
 
     /// <summary>
-    /// 播放音效（优先使用第二个播放器 effectAudio）
+    /// 根据血量百分比控制特效开关
     /// </summary>
+    private void UpdateDamageEffects()
+    {
+        if (damageable == null) return;
+
+        // 小于 70% 冒烟
+        if (smokeEffect != null)
+        {
+            smokeEffect.SetActive(damageable.Percent <= smokeThreshold);
+        }
+
+        // 小于 50% 燃火
+        if (fireEffect != null)
+        {
+            fireEffect.SetActive(damageable.Percent <= fireThreshold);
+        }
+    }
+
+    /// <summary>
+    /// 死亡时关闭所有特效，防止沉船后水面还有火
+    /// </summary>
+    private void ClearEffectsOnDeath()
+    {
+        if (smokeEffect != null) smokeEffect.SetActive(false);
+        if (fireEffect != null) fireEffect.SetActive(false);
+
+        // 禁用武器组件，防止单位还在攻击
+        foreach (var w in weapons)
+        {
+            w.enabled = false;
+        }
+    }
+
+    // --- 原有音效方法 ---
     public void PlayEffectSound(string clipName)
     {
         AudioClip clip = AudioManager.Instance.GetClip(clipName);
@@ -91,19 +129,10 @@ public class UnitCore : MonoBehaviour
         }
         else if (clip != null)
         {
-            // 备用：使用 AudioManager 的通用播放方法
             AudioManager.Instance.PlayUISound(clipName);
         }
     }
 
-    void HandleHit()
-    {
-        PlayEffectSound("Ship_Hit");
-    }
-
-    void HandleDeathSound()
-    {
-        // 播放死亡音效
-        PlayEffectSound("Ship_Boom");
-    }
+    void HandleHit() => PlayEffectSound("Ship_Hit");
+    void HandleDeathSound() => PlayEffectSound("Ship_Boom");
 }

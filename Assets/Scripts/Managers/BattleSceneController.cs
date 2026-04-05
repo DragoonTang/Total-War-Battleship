@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrimeTween;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,33 +13,22 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
     private Ship playerShip; // 玩家船只引用，用于UI控制
 
     // 分离双阵营列表，便于胜负判定
-    public List<Damageable> playerUnits = new List<Damageable>();
-    public List<Damageable> enemyUnits = new List<Damageable>();
+    public List<Damageable> playerUnits = new();
+    public List<Damageable> enemyUnits = new();
 
     [Header("胜利/失败界面")]
     public GameOverPanel overPanel;
+
+    [Header("结算配置")]
+    [SerializeField] private float endDelay = 2.0f; // 统一延迟时间
+    private Tween _endGameTween; // 用于追踪和防止重复触发的句柄
 
     private void Start()
     {
         // 确保面板初始关闭
         if (overPanel) overPanel.gameObject.SetActive(false);
-
-        // UI 事件绑定
-        //btnSpeed1.onClick.AddListener(() => playerShip.SetSpeed(0.25f));
-        //btnSpeed2.onClick.AddListener(() => playerShip.SetSpeed(0.5f));
-        //btnSpeed3.onClick.AddListener(() => playerShip.SetSpeed(0.75f));
-        //btnSpeed4.onClick.AddListener(() => playerShip.SetSpeed(1f));
-        //btnStop.onClick.AddListener(() => playerShip.SetSpeed(0f));
-        //btnReverse.onClick.AddListener(() => playerShip.SetSpeed(-0.5f));
-
-        //btnTurnLeft.onClick.AddListener(() => playerShip.SetTurnDirection(-1));
-        //btnTurnStop.onClick.AddListener(() => playerShip.SetTurnDirection(0));
-        //btnTurnRight.onClick.AddListener(() => playerShip.SetTurnDirection(1));
-
-
     }
 
-    #region 自动化注册系统
     /// <summary>
     /// 由 Damageable 或 UnitCore 在 Start 时调用
     /// </summary>
@@ -55,10 +45,6 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
             return enemyUnits; // 返回敌人单位列表，供玩家锁定
         }
     }
-
-    /// <summary>
-    /// 由 Damageable 在死亡时调用
-    /// </summary>
     public void UnregisterEntity(Damageable unit)
     {
         if (unit.isEnemy)
@@ -68,35 +54,36 @@ public class BattleSceneController : MonoSingleton<BattleSceneController>
         else
         {
             playerUnits.Remove(unit);
+            // 失败判定：只要玩家单位列表空了，立即执行
+            if (playerUnits.Count == 0)
+            {
+                playerShip.enabled = false;
+                CheckBattleStatus(false);
+                return;
+            }
         }
 
-        CheckBattleStatus();
+        // 胜利判定：敌军空了
+        if (enemyUnits.Count == 0)
+        {
+            CheckBattleStatus(true);
+        }
     }
-    #endregion
 
-    /// <summary>
-    /// 核心胜负判定逻辑
-    /// </summary>
-    private void CheckBattleStatus()
+    private void CheckBattleStatus(bool isVictory)
     {
-        // 敌人清空，玩家还在 -> 胜利
-        if (enemyUnits.Count == 0 && playerUnits.Count > 0)
-        {
-            EndGame(true);
-        }
-        // 玩家单位全部清空 -> 失败
-        else if (playerUnits.Count == 0)
-        {
-            EndGame(false);
-        }
+        // 防止多个单位同时死亡导致重复开启多个延迟任务
+        if (_endGameTween.isAlive) return;
+
+        // 使用 PrimeTween 实现延迟回调
+        _endGameTween = Tween.Delay(endDelay, () => EndGame(isVictory));
     }
 
     private void EndGame(bool isVictory)
     {
+        _endGameTween.Stop(); // 安全清理
         Debug.Log(isVictory ? "战斗胜利！" : "战斗失败！");
-
         overPanel.gameObject.SetActive(true);
         overPanel.Show(isVictory);
     }
-
 }

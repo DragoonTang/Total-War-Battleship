@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,8 +12,10 @@ public class GameOverPanel : MonoBehaviour
     {
         GetComponentInChildren<Button>().onClick.AddListener(() => SceneManager.LoadScene(0));
     }
+
     public void Show(bool isWin)
     {
-        text.text = isWin ? "You Win!" : "Game Over!";
+        var key = isWin ? "ui_win" : "ui_lose";
+        text.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainUI", key);
     }
 }

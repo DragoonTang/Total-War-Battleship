@@ -10,6 +10,7 @@ public class UIManager : MonoSingleton<UIManager>
     /// 退出
     /// </summary>
     [SerializeField] Button btnExit;
+    [SerializeField] LanguagePanel panelLang;
 
     [Header("核心引用")]
     [SerializeField] private Ship playerShip; // 在 Inspector 中拖入玩家的 Ship 物体
@@ -74,6 +75,9 @@ public class UIManager : MonoSingleton<UIManager>
                 sfxMuteToggle.isOn = false;
             }
         }
+
+        // 检查语言面板显示
+        panelLang.CheckInitialLanguage();
     }
 
     /// <summary>

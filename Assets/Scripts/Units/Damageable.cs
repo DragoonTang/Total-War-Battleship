@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// 要受伤的物体可以绑。但是最好有碰撞
+/// 要受伤的物体可以绑
 /// </summary>
 public class Damageable : MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class Damageable : MonoBehaviour
     [SerializeField]
     private int currentHP;
     public int maxHP = 100;
+    public float Percent => (float)currentHP / maxHP;
 
     [SerializeField]
     internal bool isEnemy;
