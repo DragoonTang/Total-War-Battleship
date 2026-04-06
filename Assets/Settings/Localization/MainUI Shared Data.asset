@@ -43,6 +43,18 @@ MonoBehaviour:
     m_Key: ui_exit
     m_Metadata:
       m_Items: []
+  - m_Id: 329324786061312
+    m_Key: ui_start_sign
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329610535604224
+    m_Key: ui_start_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329911623716864
+    m_Key: ui_start_btn
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

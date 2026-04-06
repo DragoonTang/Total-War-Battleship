@@ -56,6 +56,18 @@ MonoBehaviour:
     m_Localized: Exit Game
     m_Metadata:
       m_Items: []
+  - m_Id: 329324786061312
+    m_Localized: 'Tang:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329610535604224
+    m_Localized: Total Warship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329911623716864
+    m_Localized: Tap to continue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

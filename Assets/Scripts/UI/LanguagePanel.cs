@@ -32,13 +32,17 @@ public class LanguagePanel : MonoBehaviour
 
         if (savedLang == LanguageType.None)
         {
-            // 如果没选过，保持面板显示
-            Debug.Log("首次启动，请选择语言");
             gameObject.SetActive(true);
+
+            // 获取系统默认语言
+            LanguageType autoDetected = GetSystemDefaultLanguage();
+            Debug.Log("识别系统语言..."+ autoDetected);
+
+            // 自动触发一次点击逻辑，实现预览和选中状态
+            OnLanguageBtnClick(autoDetected);
         }
         else
         {
-            // 如果已有存档，直接设置语言
             SetLanguage(savedLang);
         }
     }
@@ -65,5 +69,26 @@ public class LanguagePanel : MonoBehaviour
     private void SetLanguage(LanguageType type)
     {
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[(int)type];
+    }
+
+    private LanguageType GetSystemDefaultLanguage()
+    {
+        // 获取 Unity 识别到的设备系统语言
+        SystemLanguage lang = Application.systemLanguage;
+
+        switch (lang)
+        {
+            case SystemLanguage.Chinese:
+            case SystemLanguage.ChineseSimplified:
+            case SystemLanguage.ChineseTraditional:
+                return LanguageType.Chinese; // 对应枚举 0
+
+            case SystemLanguage.Japanese:
+                return LanguageType.Japanese; // 对应枚举 1
+
+            default:
+                // 如果是英语或其他不支持的语言，统一返回英语
+                return LanguageType.English; // 对应枚举 2
+        }
     }
 }

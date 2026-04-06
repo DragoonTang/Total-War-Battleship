@@ -10,7 +10,7 @@ public class GameOverPanel : MonoBehaviour
 
     private void Start()
     {
-        GetComponentInChildren<Button>().onClick.AddListener(() => SceneManager.LoadScene(0));
+        GetComponentInChildren<Button>().onClick.AddListener(() => GameManager.RestartLevel());
     }
 
     public void Show(bool isWin)
