@@ -13,8 +13,8 @@ public class Weapon : MonoBehaviour
 
     [Header("特效")]
     [SerializeField] GameObject effect;
+    public float cooldownTimer = 0f;
 
-    private float cooldownTimer = 0f;
     private List<Damageable> targetList;
 
     public void Initialize(bool side, List<Damageable> targets)
@@ -73,7 +73,8 @@ public class Weapon : MonoBehaviour
 
     private void ExecuteLaunch()
     {
-        effect.SetActive(true);
+        if (effect != null)
+            effect.SetActive(true);
 
         GameObject bulletObj = SimplePool.Instance.Spawn(projectilePrefab.gameObject, transform.position, transform.rotation);
         if (bulletObj.TryGetComponent<Projectile>(out var projectile))

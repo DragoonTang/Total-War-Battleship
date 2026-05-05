@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: b01d8a5305a527c4daeab5318708e238, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1921,6 +1921,7 @@ MonoBehaviour:
   playerUnits: []
   enemyUnits: []
   overPanel: {fileID: 1097361601}
+  endDelay: 2
 --- !u!4 &1647690759
 Transform:
   m_ObjectHideFlags: 0
@@ -2323,6 +2324,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4408d11c36bae0c45916a2ccfcc77a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
+--- !u!114 &2243646601064716186 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2097707185387494818, guid: d0ba05c72b87db04ea36424f28e6ef16, type: 3}
+  m_PrefabInstance: {fileID: 2243646601064716184}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64b65edf9c942e448f3b5287fb584d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+--- !u!114 &2243646601064716187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581414766182918975, guid: d0ba05c72b87db04ea36424f28e6ef16, type: 3}
+  m_PrefabInstance: {fileID: 2243646601064716184}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64b65edf9c942e448f3b5287fb584d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
 --- !u!1001 &2295713033651060784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2611,6 +2634,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8171776075787402671, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
+      propertyPath: linkedWeapons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171776075787402671, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
+      propertyPath: 'linkedWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2243646601064716187}
+    - target: {fileID: 8171776075787402671, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
+      propertyPath: 'linkedWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2243646601064716186}
     - target: {fileID: 8658350638072736797, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -361,6 +361,58 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2242851620515809230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032390660451436699}
+  - component: {fileID: 4581414766182918975}
+  m_Layer: 0
+  m_Name: Torpedo1
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2032390660451436699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242851620515809230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1, y: 0.1, z: 4.777}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2332001568424258006}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4581414766182918975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242851620515809230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64b65edf9c942e448f3b5287fb584d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  isEnemy: 0
+  projectilePrefab: {fileID: 4399245092469784887, guid: 7105d2da574741a47854e3c38faa5f5a, type: 3}
+  maxRange: 30
+  cooldownTime: 60
+  fireThreshold: 3
+  isAuto: 0
+  effect: {fileID: 0}
+  cooldownTimer: 15
 --- !u!1 &2326436863064044151
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +465,7 @@ MonoBehaviour:
   fireThreshold: 5
   isAuto: 1
   effect: {fileID: 7402320914032599202}
+  cooldownTimer: 0
 --- !u!1 &2685251121925219675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1112,8 @@ Transform:
   - {fileID: 2534479989447852884}
   - {fileID: 1858527129368431513}
   - {fileID: 5556821491528347814}
+  - {fileID: 2032390660451436699}
+  - {fileID: 7093991638535549613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6757345753034297139
@@ -1142,7 +1197,9 @@ MonoBehaviour:
   basePitch: 0.8
   speedPercent: 0
   smokeEffect: {fileID: 1857568749157260793}
+  smokeThreshold: 0.6
   fireEffect: {fileID: 8360494159499271074}
+  fireThreshold: 0.35
 --- !u!65 &7759324029310902619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1358,6 +1415,58 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &7171709865115064228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7093991638535549613}
+  - component: {fileID: 2097707185387494818}
+  m_Layer: 0
+  m_Name: Torpedo2
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7093991638535549613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7171709865115064228}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1, y: 0.1, z: 4.7770004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2332001568424258006}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2097707185387494818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7171709865115064228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64b65edf9c942e448f3b5287fb584d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  isEnemy: 0
+  projectilePrefab: {fileID: 4399245092469784887, guid: 7105d2da574741a47854e3c38faa5f5a, type: 3}
+  maxRange: 30
+  cooldownTime: 60
+  fireThreshold: 3
+  isAuto: 0
+  effect: {fileID: 0}
+  cooldownTimer: 10
 --- !u!1 &7332331791173935601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,6 +1610,7 @@ MonoBehaviour:
   fireThreshold: 5
   isAuto: 1
   effect: {fileID: 8063379693068294606}
+  cooldownTimer: 0
 --- !u!1001 &1856861210986967177
 PrefabInstance:
   m_ObjectHideFlags: 0
