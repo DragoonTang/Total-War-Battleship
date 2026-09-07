@@ -1,49 +1,61 @@
+using PrimeTween;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using PrimeTween; // 使用 PrimeTween 处理动画
-using UnityEngine.SceneManagement; // 场景加载所需
 
-/// <summary>
-/// 🐉 开始界面控制器
-/// </summary>
 public class StartPanel : MonoBehaviour
 {
-    [SerializeField,Tooltip("语言面板")] LanguagePanel panelLang;
-    [SerializeField] float duration = 1.6f; // 闪烁周期
-    private Button btnStart;
-    private Text btnText;
+    [SerializeField] LanguagePanel panelLang;
+    [SerializeField] float duration = 1.6f;
+
+    [SerializeField] Button btnStart;        // 原来的全屏按钮
+    [SerializeField] Text btnText;           // 闪烁文字
+    [SerializeField] GameObject mainMenuRoot; // 新战役/继续战役按钮的父物体
+
+    [SerializeField] Button btnNewGame;
+    [SerializeField] Button btnContinue;
 
     private void Awake()
     {
-        btnStart = GetComponentInChildren<Button>();
-
-        btnText = btnStart.GetComponentInChildren<Text>();
-
         panelLang.CheckInitialLanguage();
     }
 
     private void Start()
     {
-        // 1. 实现按钮文字不断闪烁
-        if (btnText != null)
-        {
-            Tween.Alpha(btnText, 1f, 0.2f, duration,
-             cycles: -1,             // -1 代表无限循环
-             cycleMode: CycleMode.Yoyo, // 来回往复
-             ease: Ease.InOutSine    // 缓动
-             );
-        }
+        // 闪烁效果保持不变
+        Tween.Alpha(btnText, 1f, 0.2f, duration,
+            cycles: -1,
+            cycleMode: CycleMode.Yoyo,
+            ease: Ease.InOutSine);
 
-        // 2. 绑定点击事件，加载场景 1
-        btnStart.onClick.AddListener(OnStartButtonClicked);
+        btnStart.onClick.AddListener(OnTapAnywhere);
+        btnNewGame.onClick.AddListener(OnNewGameClicked);
+        btnContinue.onClick.AddListener(OnContinueClicked);
+
+        mainMenuRoot.SetActive(false);
     }
 
-    private void OnStartButtonClicked()
+    private void OnTapAnywhere()
     {
-        // 停止当前物体的所有动画（防止加载过程中出现冗余行为）
+        // 停止闪烁
         Tween.StopAll(this);
 
-        // 加载到场景 1
+        // 隐藏闪烁文字
+        btnText.gameObject.SetActive(false);
+
+        // 显示菜单按钮
+        mainMenuRoot.SetActive(true);
+    }
+
+    private void OnNewGameClicked()
+    {
+        GameManager.IsNew = true;
+        SceneManager.LoadScene(1);
+    }
+
+    private void OnContinueClicked()
+    {
+        GameManager.IsNew = false;
         SceneManager.LoadScene(1);
     }
 }

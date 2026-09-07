@@ -68,6 +68,14 @@ MonoBehaviour:
     m_Localized: Tap to continue
     m_Metadata:
       m_Items: []
+  - m_Id: 56254954870116352
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56255352523689984
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

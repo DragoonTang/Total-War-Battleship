@@ -55,6 +55,14 @@ MonoBehaviour:
     m_Key: ui_start_btn
     m_Metadata:
       m_Items: []
+  - m_Id: 56254954870116352
+    m_Key: ui_btnNewGame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56255352523689984
+    m_Key: ui_btnContinue
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

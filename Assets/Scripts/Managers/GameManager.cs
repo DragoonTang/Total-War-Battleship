@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    public static bool IsNew;
+
     public static void RestartLevel()
     {
         // 直接重载当前场景，保持所有静态数据不变
