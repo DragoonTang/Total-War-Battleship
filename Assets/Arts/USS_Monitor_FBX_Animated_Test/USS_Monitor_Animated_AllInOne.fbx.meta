@@ -3,7 +3,57 @@ guid: 9c14b828c1d9a17468548d37b92f54d9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gun_bore_and_vents_dark_recess
+    second: {fileID: 2100000, guid: 840c24f8c7b3d0441b90ec2026d5d920, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_34-star_Union_ensign
+    second: {fileID: 2100000, guid: 079799dadb5357b46acfb6d25773bc6f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Aged_bronze
+    second: {fileID: 2100000, guid: 0204d0922ac3c9a4ba2a3f1bcf43ce65, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Burnished_iron_edges
+    second: {fileID: 2100000, guid: 28cbff4241031cb439eb784fa8b0cbe5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Charcoal_wrought_iron
+    second: {fileID: 2100000, guid: 3143bdeb37846eb4ca1a4cd17abda855, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Flax_canvas
+    second: {fileID: 2100000, guid: 818a78a0cc7a69148a78ce3d2f301199, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Hemp_rope
+    second: {fileID: 2100000, guid: e1833b22b594a5f46868cddf66e69657, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Red_oxide_underwater_coating
+    second: {fileID: 2100000, guid: 5cd52c0626494ed4ea6eb1af36fe4c7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PBR_Tarred_timber
+    second: {fileID: 2100000, guid: d72ade1e860c1f24f9e67b854f05009e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Recessed_seams
+    second: {fileID: 2100000, guid: 4149806e944f49c40bff0628721f97d9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -91,7 +141,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.001
+    globalScale: 0.1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
