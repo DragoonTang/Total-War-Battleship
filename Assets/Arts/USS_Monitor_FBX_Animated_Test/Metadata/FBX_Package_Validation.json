@@ -1,0 +1,64 @@
+{
+  "fbx_version": 7400,
+  "meshes": 10,
+  "bones": 6,
+  "triangles": 160146,
+  "takes": [
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Propeller_Forward_Loop",
+      "frame_range": [
+        1.0,
+        31.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Propeller_Reverse_Loop",
+      "frame_range": [
+        1.0,
+        31.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Rudder_Center",
+      "frame_range": [
+        1.0,
+        31.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Rudder_Left",
+      "frame_range": [
+        1.0,
+        31.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Rudder_Right",
+      "frame_range": [
+        1.0,
+        31.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Rudder_Sweep_Preview",
+      "frame_range": [
+        1.0,
+        241.0
+      ]
+    },
+    {
+      "name": "Monitor_Rig|Monitor_Rig|Turret_360_Demo",
+      "frame_range": [
+        1.0,
+        301.0
+      ]
+    }
+  ],
+  "embedded_texture_count": 22,
+  "all_embedded_media_nonempty": true,
+  "reimported_unique_texture_files": 22,
+  "reimported_image_datablocks_including_colorspace_variants": 30,
+  "all_meshes_have_uv0": true,
+  "all_meshes_skinned": true,
+  "reimport_succeeded": true
+}

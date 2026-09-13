@@ -1,0 +1,187 @@
+{
+  "master_neutral_max_vertex_error_m": 0.0,
+  "left_and_right_trailing_edge_verified": true,
+  "GLB_LOD0": {
+    "skeletons": 1,
+    "bones": 6,
+    "clips": {
+      "Propeller_Forward_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Propeller_Reverse_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Center": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Left": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Right": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Sweep_Preview": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 8.0,
+        "sample_count": 241
+      },
+      "Turret_360_Demo": {
+        "bone": "Turret_Yaw",
+        "duration_seconds": 10.0,
+        "sample_count": 301
+      }
+    },
+    "no_root_or_unrelated_animation_channels": true
+  },
+  "GLB_LOD1": {
+    "skeletons": 1,
+    "bones": 6,
+    "clips": {
+      "Propeller_Forward_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Propeller_Reverse_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Center": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Left": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Right": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Sweep_Preview": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 8.0,
+        "sample_count": 241
+      },
+      "Turret_360_Demo": {
+        "bone": "Turret_Yaw",
+        "duration_seconds": 10.0,
+        "sample_count": 301
+      }
+    },
+    "no_root_or_unrelated_animation_channels": true
+  },
+  "GLB_LOD2": {
+    "skeletons": 1,
+    "bones": 6,
+    "clips": {
+      "Propeller_Forward_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Propeller_Reverse_Loop": {
+        "bone": "Propeller_Spin",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Center": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Left": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Right": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 1.0,
+        "sample_count": 31
+      },
+      "Rudder_Sweep_Preview": {
+        "bone": "Rudder_Steer",
+        "duration_seconds": 8.0,
+        "sample_count": 241
+      },
+      "Turret_360_Demo": {
+        "bone": "Turret_Yaw",
+        "duration_seconds": 10.0,
+        "sample_count": 301
+      }
+    },
+    "no_root_or_unrelated_animation_channels": true
+  },
+  "reimported_GLB": {
+    "independent_propeller": true,
+    "independent_rudder": true,
+    "simultaneous_layers_match_individual_results": true,
+    "hull_and_skeg_stationary": true
+  },
+  "FBX_reimport": {
+    "Propeller_Forward_Loop.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        32.0
+      ]
+    },
+    "Propeller_Reverse_Loop.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        32.0
+      ]
+    },
+    "Rudder_Center.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        32.0
+      ]
+    },
+    "Rudder_Left.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        32.0
+      ]
+    },
+    "Rudder_Right.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        32.0
+      ]
+    },
+    "Rudder_Sweep_Preview.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        242.0
+      ]
+    },
+    "Turret_360_Demo.fbx": {
+      "same_skeleton": true,
+      "action_frames": [
+        2.0,
+        302.0
+      ]
+    }
+  }
+}

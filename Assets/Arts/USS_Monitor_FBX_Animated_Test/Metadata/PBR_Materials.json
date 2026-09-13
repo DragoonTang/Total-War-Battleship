@@ -1,0 +1,253 @@
+[
+  {
+    "material": "Gun_bore_and_vents_dark_recess",
+    "original_name": "Gun bore and vents | dark recess",
+    "textures": {},
+    "values": {
+      "Base Color": [
+        0.00800000037997961,
+        0.009999999776482582,
+        0.010999999940395355,
+        1.0
+      ],
+      "Metallic": 0.20000000298023224,
+      "Roughness": 0.8999999761581421,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space"
+  },
+  {
+    "material": "PBR_34-star_Union_ensign",
+    "original_name": "PBR | 34-star Union ensign",
+    "textures": {
+      "Base Color": [
+        "Textures/US_Ensign_34_Stars_BaseColor.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.6000000238418579,
+        0.4000000059604645,
+        0.30000001192092896,
+        1.0
+      ],
+      "Metallic": 0.0,
+      "Roughness": 0.9399999976158142,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space"
+  },
+  {
+    "material": "PBR_Aged_bronze",
+    "original_name": "PBR | Aged bronze",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Aged_bronze_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Aged_bronze_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Aged_bronze_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.7799999713897705,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Burnished_iron_edges",
+    "original_name": "PBR | Burnished iron edges",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Burnished_iron_edges_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Burnished_iron_edges_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Burnished_iron_edges_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.8500000238418579,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Charcoal_wrought_iron",
+    "original_name": "PBR | Charcoal wrought iron",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Charcoal_wrought_iron_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Charcoal_wrought_iron_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Charcoal_wrought_iron_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.7799999713897705,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Flax_canvas",
+    "original_name": "PBR | Flax canvas",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Flax_canvas_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Flax_canvas_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Flax_canvas_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.0,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Hemp_rope",
+    "original_name": "PBR | Hemp rope",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Hemp_rope_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Hemp_rope_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Hemp_rope_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.0,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Red_oxide_underwater_coating",
+    "original_name": "PBR | Red oxide underwater coating",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Red_oxide_underwater_coating_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Red_oxide_underwater_coating_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Red_oxide_underwater_coating_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.25,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "PBR_Tarred_timber",
+    "original_name": "PBR | Tarred timber",
+    "textures": {
+      "Base Color": [
+        "Textures/PBR_Tarred_timber_BaseColor.png"
+      ],
+      "Roughness": [
+        "Textures/PBR_Tarred_timber_Roughness.png"
+      ],
+      "Normal": [
+        "Textures/PBR_Tarred_timber_Normal.png"
+      ]
+    },
+    "values": {
+      "Base Color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "Metallic": 0.0,
+      "Roughness": 0.5,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space",
+    "normal_strength": 0.5
+  },
+  {
+    "material": "Recessed_seams",
+    "original_name": "Recessed seams",
+    "textures": {},
+    "values": {
+      "Base Color": [
+        0.02500000037252903,
+        0.029999999329447746,
+        0.029999999329447746,
+        1.0
+      ],
+      "Metallic": 0.6000000238418579,
+      "Roughness": 0.800000011920929,
+      "Alpha": 1.0
+    },
+    "normal_convention": "OpenGL +Y tangent space"
+  }
+]

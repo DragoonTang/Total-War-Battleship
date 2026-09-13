@@ -1,0 +1,73 @@
+{
+  "fps": 30,
+  "bones": [
+    "Root",
+    "Turret_Yaw",
+    "Gun_Port_Elevation",
+    "Gun_Starboard_Elevation",
+    "Propeller_Spin",
+    "Rudder_Steer"
+  ],
+  "mesh_count": 10,
+  "triangles": {
+    "LOD0": 160146,
+    "LOD1": 76861,
+    "LOD2": 32021
+  },
+  "clips": {
+    "Propeller_Forward_Loop": {
+      "affected_bone": "Propeller_Spin",
+      "channels": 1,
+      "duration_seconds": 1.0
+    },
+    "Propeller_Reverse_Loop": {
+      "affected_bone": "Propeller_Spin",
+      "channels": 1,
+      "duration_seconds": 1.0
+    },
+    "Rudder_Center": {
+      "affected_bone": "Rudder_Steer",
+      "channels": 1,
+      "duration_seconds": 1.0
+    },
+    "Rudder_Left": {
+      "affected_bone": "Rudder_Steer",
+      "channels": 1,
+      "duration_seconds": 1.0
+    },
+    "Rudder_Right": {
+      "affected_bone": "Rudder_Steer",
+      "channels": 1,
+      "duration_seconds": 1.0
+    },
+    "Rudder_Sweep_Preview": {
+      "affected_bone": "Rudder_Steer",
+      "channels": 1,
+      "duration_seconds": 8.0
+    },
+    "Turret_360_Demo": {
+      "affected_bone": "Turret_Yaw",
+      "channels": 1,
+      "duration_seconds": 10.0
+    }
+  },
+  "steering": {
+    "input_min": -1,
+    "input_max": 1,
+    "left_local_z_deg": -30,
+    "right_local_z_deg": 30,
+    "mask": [
+      "Rudder_Steer"
+    ]
+  },
+  "propulsion": {
+    "reference_rpm": 60,
+    "mask": [
+      "Propeller_Spin"
+    ],
+    "forward_clip": "Propeller_Forward_Loop",
+    "reverse_clip": "Propeller_Reverse_Loop"
+  },
+  "root_motion": false,
+  "historical_note": "Rudder travel and shaft rate are adjustable game presentation defaults, not historically measured performance."
+}
