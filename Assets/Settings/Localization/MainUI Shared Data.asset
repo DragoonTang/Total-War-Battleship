@@ -63,6 +63,54 @@ MonoBehaviour:
     m_Key: ui_btnContinue
     m_Metadata:
       m_Items: []
+  - m_Id: 58841668939649024
+    m_Key: ui_tutorial_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535104
+    m_Key: ui_tutorial_continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535105
+    m_Key: ui_tutorial_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535106
+    m_Key: ui_tutorial_stop_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535107
+    m_Key: ui_tutorial_forward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535108
+    m_Key: ui_tutorial_stop_ship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535109
+    m_Key: ui_tutorial_reverse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535110
+    m_Key: ui_tutorial_resume_forward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535111
+    m_Key: ui_tutorial_main_gun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535112
+    m_Key: ui_tutorial_torpedo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535113
+    m_Key: ui_tutorial_health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535114
+    m_Key: ui_tutorial_complete
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

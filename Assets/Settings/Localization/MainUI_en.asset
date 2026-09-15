@@ -27,17 +27,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 48883734646784
-    m_Localized: 'Controls:
+    m_Localized: '[Battle Objective]
 
-      The left buttons are gear controls. Click to move
-      the warship forward, backward, or stop.
-
-      The right control is the rudder.
-      Click to rotate the warship.
+      Destroy all enemy ships!
 
 
-
-      Objective: Destroy all enemy ships!'
+      Next,
+      you will learn the basic ship controls.'
     m_Metadata:
       m_Items: []
   - m_Id: 57068663050240
@@ -74,6 +70,74 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 56255352523689984
     m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841668939649024
+    m_Localized: Tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535104
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535105
+    m_Localized: 'Click left or right rudder.
+
+      The ship keeps turning that
+      way; you do not need to hold it.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535106
+    m_Localized: 'The ship keeps its current rudder direction.
+
+      Click the middle
+      button to stop turning.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535107
+    m_Localized: 'The controls on the left set speed. Higher numbers mean faster
+      movement.
+
+      Choose a forward gear.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535108
+    m_Localized: Click the anchor button to stop the ship.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535109
+    m_Localized: You can also reverse when you need to adjust your position.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535110
+    m_Localized: "Reverse complete.\nSelect gear 1\u20134 to move forward again."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535111
+    m_Localized: 'The main guns do not require manual aiming.
+
+      They automatically
+      aim and fire when an enemy enters the firing arc.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535112
+    m_Localized: 'This is the torpedo. It is powerful, but reloads slowly.
+
+      Click
+      the button to launch it.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535113
+    m_Localized: 'This displays your ship''s durability.
+
+      Durability decreases
+      when you take damage.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58841669023535114
+    m_Localized: 'Basic training complete.
+
+      Destroy all enemy ships!'
     m_Metadata:
       m_Items: []
   references:
