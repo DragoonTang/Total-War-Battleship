@@ -12,63 +12,132 @@ public class TorpedoWeaponUI : MonoBehaviour
     public Image cooldownMask;
     public Image highlightOverlay;
 
+    [Header("HUD 状态")]
+    [SerializeField] private Text stateText;
+    [SerializeField] private Text cooldownText;
+    [SerializeField] private RectTransform feedbackTarget;
+
     public event System.Action OnFired;
 
-    private Tween _blinkTween;
-    private bool _isReady;
+    private Tween blinkTween;
+    private Tween fireFeedbackTween;
+    private bool isReady;
 
-    void Start()
+    private void Start()
     {
-        fireButton.onClick.AddListener(OnFireButtonClicked);
-        highlightOverlay.enabled = false;
+        if (fireButton != null) fireButton.onClick.AddListener(OnFireButtonClicked);
+        if (highlightOverlay != null) highlightOverlay.enabled = false;
+        RefreshState(true);
+    }
+
+    private void OnDestroy()
+    {
+        if (fireButton != null) fireButton.onClick.RemoveListener(OnFireButtonClicked);
+        StopTweens();
+    }
+
+    private void OnDisable()
+    {
+        StopTweens();
+        if (feedbackTarget != null) feedbackTarget.localScale = Vector3.one;
     }
 
     private void OnFireButtonClicked()
     {
         bool fired = false;
-        foreach (var w in linkedWeapons)
+        if (linkedWeapons != null)
         {
-            if (w != null && w.TryFire()) fired = true;
+            foreach (Weapon weapon in linkedWeapons)
+            {
+                if (weapon != null && weapon.TryFire()) fired = true;
+            }
         }
 
-        if (fired) OnFired?.Invoke();
+        if (!fired) return;
+
+        PlayFireFeedback();
+        OnFired?.Invoke();
     }
 
-    void Update()
+    private void Update()
     {
-        if (linkedWeapons == null || linkedWeapons.Length == 0) return;
+        RefreshState(false);
+    }
 
-        Weapon masterWeapon = linkedWeapons[0];
-        cooldownMask.fillAmount = 1f - (masterWeapon.cooldownTimer / masterWeapon.cooldownTime);
-
-        bool currentlyReady = masterWeapon.cooldownTimer <= 0;
-        fireButton.interactable = currentlyReady;
-
-        if (currentlyReady && !_isReady)
+    private void RefreshState(bool force)
+    {
+        Weapon masterWeapon = GetMasterWeapon();
+        if (masterWeapon == null)
         {
-            SetReadyState(true);
-        }
-        else if (!currentlyReady && _isReady)
-        {
-            SetReadyState(false);
+            if (fireButton != null) fireButton.interactable = false;
+            if (stateText != null) stateText.text = "NO TORPEDO";
+            if (cooldownText != null) cooldownText.text = "--";
+            if (cooldownMask != null) cooldownMask.fillAmount = 0f;
+            return;
         }
 
-        _isReady = currentlyReady;
+        float cooldownTime = Mathf.Max(0.01f, masterWeapon.cooldownTime);
+        float remaining = Mathf.Max(0f, masterWeapon.cooldownTimer);
+        float progress = 1f - Mathf.Clamp01(remaining / cooldownTime);
+        bool currentlyReady = remaining <= 0f;
+
+        if (cooldownMask != null) cooldownMask.fillAmount = progress;
+        if (fireButton != null) fireButton.interactable = currentlyReady;
+        if (stateText != null) stateText.text = currentlyReady ? "READY" : "RELOADING";
+        if (cooldownText != null) cooldownText.text = currentlyReady ? "" : remaining.ToString("0.0") + "s";
+
+        if (force || currentlyReady != isReady) SetReadyState(currentlyReady);
+        isReady = currentlyReady;
+    }
+
+    private Weapon GetMasterWeapon()
+    {
+        if (linkedWeapons == null) return null;
+        foreach (Weapon weapon in linkedWeapons)
+        {
+            if (weapon != null) return weapon;
+        }
+        return null;
     }
 
     private void SetReadyState(bool ready)
     {
-        fireButton.interactable = ready;
+        if (blinkTween.isAlive) blinkTween.Stop();
+
+        if (highlightOverlay == null) return;
+        highlightOverlay.enabled = ready;
 
         if (ready)
         {
-            highlightOverlay.enabled = true;
-            _blinkTween = Tween.Alpha(highlightOverlay, 0f, 1f, 0.5f, cycles: -1, cycleMode: CycleMode.Yoyo);
+            blinkTween = Tween.Alpha(
+                highlightOverlay,
+                0.2f,
+                0.72f,
+                0.65f,
+                Ease.InOutSine,
+                cycles: -1,
+                cycleMode: CycleMode.Yoyo,
+                useUnscaledTime: true);
         }
-        else
-        {
-            if (_blinkTween.isAlive) _blinkTween.Stop();
-            highlightOverlay.enabled = false;
-        }
+    }
+
+    private void PlayFireFeedback()
+    {
+        if (feedbackTarget == null) return;
+        if (fireFeedbackTween.isAlive) fireFeedbackTween.Stop();
+
+        fireFeedbackTween = Tween.Scale(
+            feedbackTarget,
+            Vector3.one * 0.9f,
+            Vector3.one,
+            0.24f,
+            Ease.OutBack,
+            useUnscaledTime: true);
+    }
+
+    private void StopTweens()
+    {
+        if (blinkTween.isAlive) blinkTween.Stop();
+        if (fireFeedbackTween.isAlive) fireFeedbackTween.Stop();
     }
 }
