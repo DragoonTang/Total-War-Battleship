@@ -76,8 +76,7 @@ public class UIManager : MonoSingleton<UIManager>
             }
         }
 
-        // 根据是否新游戏显示面
-        panelLang.gameObject.SetActive(GameManager.IsNew);
+        panelLang.gameObject.SetActive(false);
     }
 
     /// <summary>
