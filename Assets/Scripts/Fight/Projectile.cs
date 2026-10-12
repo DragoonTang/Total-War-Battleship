@@ -7,6 +7,10 @@ public class Projectile : MonoBehaviour
     int damage = 10; // 伤害值
     public float speed = 20f;
     public float lifetime = 5f;
+    /// <summary>
+    /// 在多久后开始下落
+    /// </summary>
+    public float fallTime = 1f; 
     public float downwardForce = 5f; // 可自定义“重力感”
     [SerializeField] GameObject effect;
 
@@ -47,7 +51,7 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         // 施加一个持续向下的自定义力（仅影响 Y 轴）
-        if (timer > 2)
+        if (timer > fallTime)
             rb.linearVelocity += Vector3.down * downwardForce * Time.fixedDeltaTime;
 
         timer -= Time.fixedDeltaTime;

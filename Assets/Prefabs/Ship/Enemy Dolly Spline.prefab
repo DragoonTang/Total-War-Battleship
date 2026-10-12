@@ -138,8 +138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
@@ -1281,8 +1281,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
@@ -1761,8 +1761,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
@@ -1906,8 +1906,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
@@ -2884,8 +2884,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
@@ -2937,8 +2937,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   isEnemy: 0
-  projectilePrefab: {fileID: 4399245092469784887, guid: 04e19f3e71100ec46a7691d7a1f29a10, type: 3}
-  maxRange: 30
+  projectilePrefab: {fileID: 4399245092469784887, guid: 261f5ec6124064b44a9d749fb799019c, type: 3}
+  maxRange: 35
   cooldownTime: 3
   fireThreshold: 30
   isAuto: 1
