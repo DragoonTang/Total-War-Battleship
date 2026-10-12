@@ -65,3 +65,12 @@
 - 项目入口、核心玩法、技术栈或已确认美术方向发生变化时，更新本文件；详细进度放在对应文档，避免在此累积对话记录。
 
 本文件依据项目文件梳理于 2026-09-21；游戏及美术参考由用户在本次任务中明确指定。未进行编辑器运行或构建验证。
+
+## Unity Editor Rules
+
+- The Unity Editor may already be running.
+- Never launch Unity Editor or Unity Hub unless explicitly requested by the user.
+- Failure of `unity status`, Pipeline, or MCP discovery does not mean Unity is not running.
+- If Unity MCP or Pipeline connectivity fails, diagnose the connection first.
+- Never open a second instance of this Unity project.
+- Prefer Unity MCP tools for Editor inspection and operations when they are available.

@@ -2442,18 +2442,10 @@ PrefabInstance:
       propertyPath: targetDamageable
       value: 
       objectReference: {fileID: 2243646601064716185}
-    - target: {fileID: 4115301492877428480, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6060953783981334788, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
       propertyPath: playerShip
       value: 
       objectReference: {fileID: 1947617958}
-    - target: {fileID: 8171776075787402671, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
-      propertyPath: linkedWeapons.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8171776075787402671, guid: 87541d1fef158564aa6f47f34405cdef, type: 3}
       propertyPath: 'linkedWeapons.Array.data[0]'
       value: 
