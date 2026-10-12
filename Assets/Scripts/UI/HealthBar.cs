@@ -19,6 +19,7 @@ public class HealthBarImage : MonoBehaviour
     private Tween deathTween;
     private Vector3 baseLocalPosition;
     private Vector3 baseLocalScale;
+    private bool initialized;
 
     private void OnEnable()
     {
@@ -29,7 +30,19 @@ public class HealthBarImage : MonoBehaviour
 
         targetDamageable.OnHit += HandleHitUpdate;
         targetDamageable.OnDie += HandleDeath;
-        fillImage.fillAmount = Mathf.Clamp01(targetDamageable.Percent);
+        if (initialized) RefreshFillAmount();
+    }
+
+    private void Start()
+    {
+        initialized = true;
+        RefreshFillAmount();
+    }
+
+    private void RefreshFillAmount()
+    {
+        if (fillImage != null && targetDamageable != null)
+            fillImage.fillAmount = Mathf.Clamp01(targetDamageable.Percent);
     }
 
     private void OnDisable()
