@@ -542,8 +542,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300791828}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23136467, y: 0.00000001218479, z: -0.000000002897754, w: 0.97286713}
-  m_LocalPosition: {x: -36.5, y: 4.874655, z: 8.713495}
+  m_LocalRotation: {x: 0.1658765, y: -0.0000020053292, z: 0.0000003373099, w: 0.98614657}
+  m_LocalPosition: {x: -36.5, y: 1.0549309, z: 15.742699}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -569,7 +569,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 10
+  Radius: 2
   Orbits:
     Top:
       Radius: 2
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa5a21075114734ca2f156bbbf675a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinemachineCameraControl
-  viewRange: {x: 2, y: 10}
+  viewRange: {x: 1, y: 10}
   scrollSpeed: 0.5
   cinemaController: {fileID: 300791834}
 --- !u!1 &330585543
@@ -772,8 +772,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2313647, y: 0.000000012184792, z: -0.0000000028977551, w: 0.97286713}
-  m_LocalPosition: {x: -36.5, y: 4.874655, z: 8.713495}
+  m_LocalRotation: {x: 0.16587652, y: -0.0000020053294, z: 0.00000033730993, w: 0.98614657}
+  m_LocalPosition: {x: -36.5, y: 1.0549309, z: 15.742699}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
